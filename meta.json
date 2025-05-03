@@ -1,0 +1,16 @@
+{
+	"id": "rotlatro",
+	"name": "Rotlatro",
+	"author": ["cheekyrotter"],
+	"version": "0.1.0",
+	"description": "Adds new vanilla-like jokers with a focus on creating the potential for more late game build types.",
+	"prefix": "rotlatro",
+	"main_file": "main.lua",
+	"priority": 0,
+	"badge_colour": "952322",
+	"badge_text_colour": "FFFFFF",
+	"dependencies": [
+        "Steamodded (>=1.*)",
+		"Lovely (>=0.6)"
+    ]
+}
