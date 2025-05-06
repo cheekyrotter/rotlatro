@@ -124,7 +124,7 @@ SMODS.Joker {
     },
 
     -- Vars
-    config = { extra = { odds = 1, xmult = 3 } },
+    config = { extra = { odds = 2, xmult = 3 } },
 
     loc_vars = function(self, info_queue, card)
         return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult } }
