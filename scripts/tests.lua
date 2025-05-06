@@ -102,7 +102,7 @@ SMODS.Keybind {
     key_pressed = '1',
 
     action = function(self)
-        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_rotlatro_estark')
+        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_rotlatro_ash')
         card:add_to_deck()
         G.jokers:emplace(card)
     end
