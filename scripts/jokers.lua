@@ -24,7 +24,7 @@ SMODS.Joker {
 
     -- Atlas
     atlas = 'rotlatro',
-    pos = { x = 2, y = 0 },
+    pos = { x = 1, y = 0 },
     
     -- Ingame config
     cost = 7,
@@ -85,7 +85,7 @@ SMODS.Joker {
 
     -- Atlas
     atlas = 'rotlatro',
-    pos = { x = 1, y = 0 },
+    pos = { x = 2, y = 0 },
     
     -- Ingame config
     cost = 7,
@@ -100,9 +100,7 @@ SMODS.Joker {
         if context.individual and context.cardarea == G.play then
             if context.other_card:get_id() == 13 and context.other_card:is_suit("Hearts") then -- Checks for king and hearts
                 return {
-                xmult_mod = card.ability.extra.xmult,
-                message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } },
-                message_card = context.other_card,
+                    xmult = card.ability.extra.xmult,
                 }
             end
         end
@@ -117,16 +115,16 @@ SMODS.Joker {
     -- Name/desc
     key = 'ash',
     loc_txt = {
-        name = 'ash',
+        name = 'Ash',
         text = {
         "{C:green}#1# in #2#{} chance for each",
         "{C:spades}Kings of Spades{} played",
-        "to give {X:mult,C:white} X#1# {c:inactive} Mult when scored",
+        "to give {X:mult,C:white} X#3# {c:inactive} Mult when scored",
         }
     },
 
     -- Vars
-    config = { extra = { odds = 6, xmult = 3 } },
+    config = { extra = { odds = 1, xmult = 3 } },
 
     loc_vars = function(self, info_queue, card)
         return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult } }
@@ -134,7 +132,7 @@ SMODS.Joker {
 
     -- Atlas
     atlas = 'rotlatro',
-    pos = { x = 4, y = 0 },
+    pos = { x = 3, y = 0 },
     
     -- Ingame config
     cost = 7,
@@ -147,23 +145,13 @@ SMODS.Joker {
 
     calculate = function(self, card, context)
 
-        if context.joker_main then
-            return {
-                chips_mod = card.ability.extra.chips,
-                message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
-            }
-        end
-
-        if context.individual and context.cardarea == G.play and not context.blueprint then
-            
-            -- Updated variable is equal to current variable, plus the amount of gain.
-            if context.other_card:get_id() == 13 and context.other_card:is_suit("Clubs") then
-                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
-                return {
-                    message = 'Upgraded!',
-                    colour = G.C.CHIPS,
-                    card = card
-                }
+        if context.individual and context.cardarea == G.play then
+            if pseudorandom('Ash') < G.GAME.probabilities.normal/card.ability.extra.odds then
+                if context.other_card:get_id() == 13 and context.other_card:is_suit("Spades") then
+                    return {
+                        xmult = card.ability.extra.xmult,
+                    }
+                end
             end
         end
     end
@@ -194,7 +182,7 @@ SMODS.Joker {
 
     -- Atlas
     atlas = 'rotlatro',
-    pos = { x = 3, y = 0 },
+    pos = { x = 4, y = 0 },
     
     -- Ingame config
     cost = 7,
