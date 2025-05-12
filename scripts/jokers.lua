@@ -217,5 +217,130 @@ SMODS.Joker {
     end
 },
 
+SMODS.Joker { 
+    -- Retrigger joker
+    -- Retriggers lucky cards
+
+    -- Name/desc
+    key = 'viva',
+    loc_txt = {
+        name = 'Viva Las Jimbo',
+        text = {
+        "Retrigger all scored",
+        "{C:attention}Lucky{} cards",
+        }
+    },
+
+    -- Vars
+    config = { extra = { retriggers = 1 }},
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.retriggers } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 5, y = 0 },
+    
+    -- Ingame config
+    cost = 5,
+    unlocked = true, 
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 2,
+
+    calculate = function(self, card, context)
+
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card.config.center.key == "m_lucky" then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = card.ability.extra.retriggers,
+                    card = other_card
+                }
+            end
+        end
+    end
+    
+},
+
+SMODS.Joker { 
+    -- Creation joker
+    -- Creates a random legendary joker after a length of time
+
+    -- Name/desc
+    key = 'spirit',
+    loc_txt = {
+        name = 'Spirit',
+        text = {
+        "After {C:attention}#1# rounds,",
+        "sell this card to create a",
+        "random {E:1,C:legendary}Legendary{} Joker",
+        "{c:inactive}(Currently {C:attention}#2#{c:inactive}/#1#)"
+        }
+    },
+
+    -- Vars
+    config = { extra = { max_rounds = 1, rounds = 0 }},
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.max_rounds, card.ability.extra.rounds } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 0, y = 0 },
+    
+    -- Ingame config
+    cost = 10,
+    unlocked = true, 
+    discovered = false,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = false,
+    rarity = 3,
+
+    calculate = function(self, card, context)
+
+        if 
+            context.selling_self
+            and (card.ability.extra.rounds == card.ability.extra.max_rounds)
+            and not context.blueprint
+        then
+            play_sound('timpani')
+            local card = create_card('Joker', G.jokers, true)
+            card:add_to_deck()
+            G.jokers:emplace(card)
+			card:start_materialize()
+        end
+
+        if 
+            context.end_of_round 
+            and context.cardarea == G.jokers 
+            and not context.blueprint
+            and not context.individual
+            and not context.repetition
+            and not context.retrigger_joker 
+        then
+            if card.ability.extra.rounds < card.ability.extra.max_rounds then
+
+                card.ability.extra.rounds = card.ability.extra.rounds + 1
+                if card.ability.extra.rounds == card.ability.extra.max_rounds then
+                    local eval = function(card) return not card.REMOVED end
+                    juice_card_until(card, eval, true) 
+                end
+                return {
+                    message = card.ability.extra.rounds .. '/' .. card.ability.extra.max_rounds,
+                    color = G.C.FILTER,
+                    card = card
+                }
+            end
+        
+        
+    end
+end 
+},
 
 }

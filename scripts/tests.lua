@@ -102,9 +102,31 @@ SMODS.Keybind {
     key_pressed = '1',
 
     action = function(self)
-        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_rotlatro_ash')
+        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_rotlatro_spirit')
         card:add_to_deck()
         G.jokers:emplace(card)
+    end
+},
+
+SMODS.Keybind {
+    key = 'test_give2',
+    key_pressed = '2',
+
+    action = function(self)
+        local card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, 'c_magician')
+        card:add_to_deck()
+        G.consumeables:emplace(card)
+    end
+},
+
+SMODS.Keybind {
+    key = 'test_give3',
+    key_pressed = '3',
+
+    action = function(self)
+        local card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, 'j_invisible')
+        card:add_to_deck()
+        G.consumeables:emplace(card)
     end
 }
 
