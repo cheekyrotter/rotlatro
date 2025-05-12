@@ -5,18 +5,18 @@ SMODS.Joker {
     -- Gains xmult when king of diamonds played
 
     -- Name/desc
-    key = 'malech',
+    key = 'Malech',
     loc_txt = {
         name = 'malech',
         text = {
-        "This joker Gains {X:mult,C:white}X#2# {} Mult",
-        "per {C:diamonds}Kings of Diamonds{} played",
+        "This joker Gains {X:mult,C:white}X#2# {} Mult when",
+        "each {C:diamonds}Kings of Diamonds{} is scored",
         "{c:inactive}(Currently {X:mult,C:white} X#1# {c:inactive} Mult)",
         }
     },
 
     -- Vars
-    config = { extra = { xmult = 1, xmult_gain = 0.2 } },
+    config = { extra = { xmult = 1, xmult_gain = 0.1 } },
 
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.xmult, card.ability.extra.xmult_gain } }
@@ -71,7 +71,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Gabril',
         text = {
-        "All scored {C:hearts}Kings of Hearts{}",
+        "Each scored {C:hearts}Kings of Hearts{}",
         "give {X:mult,C:white} X#1# {} Mult",
         }
     },
@@ -118,7 +118,7 @@ SMODS.Joker {
         name = 'Ash',
         text = {
         "{C:green}#1# in #2#{} chance for each",
-        "{C:spades}Kings of Spades{} played",
+        "{C:spades}Kings of Spades{} scored",
         "to give {X:mult,C:white} X#3# {c:inactive} Mult when scored",
         }
     },
@@ -167,8 +167,8 @@ SMODS.Joker {
     loc_txt = {
         name = 'Estark',
         text = {
-        "This Joker gains {C:chips}#2#{} Chips",
-        "per {C:clubs}Kings of Clubs{} played",
+        "This Joker gains {C:chips}+#2#{} Chips when",
+        "each {C:clubs}Kings of Clubs{} is scored",
         "{c:inactive}(Currently {C:chips}#1#{c:inactive} Chips)",
         }
     },
