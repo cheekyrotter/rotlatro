@@ -5,9 +5,9 @@ SMODS.Joker {
     -- Gains xmult when king of diamonds played
 
     -- Name/desc
-    key = 'Malech',
+    key = 'malech',
     loc_txt = {
-        name = 'malech',
+        name = 'Malech',
         text = {
         "This joker Gains {X:mult,C:white}X#2# {} Mult when",
         "each {C:diamonds}Kings of Diamonds{} is scored",
