@@ -1,5 +1,3 @@
-return {
-
 SMODS.Joker { 
     -- Scaling joker
     -- Gains xmult when king of diamonds played
@@ -9,9 +7,9 @@ SMODS.Joker {
     loc_txt = {
         name = 'Malech',
         text = {
-        "This joker Gains {X:mult,C:white}X#2# {} Mult when",
-        "each {C:diamonds}Kings of Diamonds{} is scored",
-        "{c:inactive}(Currently {X:mult,C:white} X#1# {c:inactive} Mult)",
+        "This joker gains {X:mult,C:white}X#2# {} Mult when",
+        "each {C:diamonds}King of Diamonds{} is scored",
+        "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
         }
     },
 
@@ -39,14 +37,12 @@ SMODS.Joker {
 
         if context.joker_main then
             return {
-                mult_mod = card.ability.extra.xmult,
-                message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } }
+                xmult = card.ability.extra.xmult,
             }
         end
 
         if context.individual and context.cardarea == G.play and not context.blueprint then
             
-            -- Updated variable is equal to current variable, plus the amount of gain.
             if context.other_card:get_id() == 13 and context.other_card:is_suit("Diamonds") then
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
                 return {
@@ -57,7 +53,7 @@ SMODS.Joker {
             end
         end
     end
-},
+}
 
 
 SMODS.Joker { 
@@ -71,8 +67,8 @@ SMODS.Joker {
     loc_txt = {
         name = 'Gabril',
         text = {
-        "Each scored {C:hearts}Kings of Hearts{}",
-        "give {X:mult,C:white} X#1# {} Mult",
+        "Each scored {C:hearts}King of Hearts{}",
+        "gives {X:mult,C:white} X#1# {} Mult",
         }
     },
 
@@ -105,7 +101,7 @@ SMODS.Joker {
             end
         end
     end
-},
+}
 
 
 SMODS.Joker { 
@@ -118,8 +114,8 @@ SMODS.Joker {
         name = 'Ash',
         text = {
         "{C:green}#1# in #2#{} chance for each",
-        "{C:spades}Kings of Spades{} scored",
-        "to give {X:mult,C:white} X#3# {c:inactive} Mult when scored",
+        "{C:spades}King of Spades{} scored",
+        "to give {X:mult,C:white} X#3# {C:inactive} Mult when scored",
         }
     },
 
@@ -155,7 +151,7 @@ SMODS.Joker {
             end
         end
     end
-},
+}
 
 
 SMODS.Joker { 
@@ -168,8 +164,8 @@ SMODS.Joker {
         name = 'Estark',
         text = {
         "This Joker gains {C:chips}+#2#{} Chips when",
-        "each {C:clubs}Kings of Clubs{} is scored",
-        "{c:inactive}(Currently {C:chips}#1#{c:inactive} Chips)",
+        "each {C:clubs}King of Clubs{} is scored",
+        "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
         }
     },
 
@@ -197,8 +193,7 @@ SMODS.Joker {
 
         if context.joker_main then
             return {
-                chips_mod = card.ability.extra.chips,
-                message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+                chips = card.ability.extra.chips,
             }
         end
 
@@ -215,7 +210,7 @@ SMODS.Joker {
             end
         end
     end
-},
+}
 
 SMODS.Joker { 
     -- Retrigger joker
@@ -264,7 +259,7 @@ SMODS.Joker {
         end
     end
     
-},
+}
 
 SMODS.Joker { 
     -- Creation joker
@@ -278,12 +273,12 @@ SMODS.Joker {
         "After {C:attention}#1# rounds,",
         "sell this card to create a",
         "random {E:1,C:legendary}Legendary{} Joker",
-        "{c:inactive}(Currently {C:attention}#2#{c:inactive}/#1#)"
+        "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)"
         }
     },
 
     -- Vars
-    config = { extra = { max_rounds = 1, rounds = 0 }},
+    config = { extra = { max_rounds = 10, rounds = 0 }},
 
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.max_rounds, card.ability.extra.rounds } }
@@ -341,6 +336,69 @@ SMODS.Joker {
         
     end
 end 
-},
+}
 
+SMODS.Joker { 
+    -- Scaling joker
+    -- Gains xmult when a Queen or 2 is destroyed
+    -- Based on character of same name from Invincible (iykyk)
+
+    -- Name/desc
+    key = 'powerplex',
+    loc_txt = {
+        name = 'Powerplex',
+        text = {
+        "This joker gains {X:mult,C:white}X#2# {} Mult for",
+        "every {C:attention}2{} or {C:attention}Queen{} that is destroyed",
+        "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
+        }
+    },
+
+    -- Vars
+    config = { extra = { xmult = 1, xmult_gain = 0.5 } },
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.xmult, card.ability.extra.xmult_gain } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 2, y = 0 },
+    
+    -- Ingame config
+    cost = 4,
+    unlocked = true, 
+    discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 2,
+
+    calculate = function(self, card, context)
+
+        if context.joker_main then
+            return {
+                xmult = card.ability.extra.xmult,
+                message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } }
+            }
+        end
+
+        if context.remove_playing_cards and not context.blueprint then
+            local destroyed = 0
+            for k, v in ipairs(context.removed) do
+                print(v:get_id())
+                if v:get_id() == 12 or v:get_id() == 2 then
+                    card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                    destroyed = destroyed + 1
+                end
+            end
+            if destroyed > 0 then
+                return {
+                    message = 'Upgraded!',
+                    colour = G.C.MULT,
+                    card = card
+                }
+            end
+        end
+    end
 }
