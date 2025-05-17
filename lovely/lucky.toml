@@ -1,0 +1,36 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 100
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, p_dollars = 20}},'''
+position = "at"
+match_indent = true
+payload = '''m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, p_dollars = 20, extra = {odds = 5, odds_1 = 15}}},'''
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, cfg.mult, 5, cfg.p_dollars, 15}'''
+position = "at"
+match_indent = true
+payload = '''elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, cfg.mult, cfg.extra.odds, cfg.p_dollars, cfg.extra.odds_1}'''
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/5 then'''
+position = "at"
+match_indent = true
+payload = '''if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/self.ability.extra.odds then'''
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''if pseudorandom('lucky_money') < G.GAME.probabilities.normal/15 then'''
+position = "at"
+match_indent = true
+payload = '''if pseudorandom('lucky_money') < G.GAME.probabilities.normal/self.ability.extra.odds_1 then'''
