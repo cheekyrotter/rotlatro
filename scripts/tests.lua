@@ -102,7 +102,7 @@ SMODS.Keybind {
     key_pressed = '1',
 
     action = function(self)
-        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_rotlatro_powerplex')
+        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_rotlatro_dangit')
         card:add_to_deck()
         G.jokers:emplace(card)
     end
@@ -124,9 +124,9 @@ SMODS.Keybind {
     key_pressed = '3',
 
     action = function(self)
-        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_invisible')
+        local card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_bloodstone')
         card:add_to_deck()
-        G.consumeables:emplace(card)
+        G.jokers:emplace(card)
     end
 }
 

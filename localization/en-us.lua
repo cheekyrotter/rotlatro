@@ -55,6 +55,15 @@ return {
                     "every {C:attention}2{} or {C:attention}Queen{} that is destroyed",
                     "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
                 }
+            },
+            j_rotlatro_dangit = {
+                name = 'Awh Dang It',
+                text = {
+                    "This joker gains {X:mult,C:white}X#2# {} Mult for",
+                    "each {C:attention}unsuccessful{} {C:green}chance{}",
+                    "ability this round",
+                    "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
+                }
             }
         },
     },
