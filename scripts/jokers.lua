@@ -2,16 +2,8 @@ SMODS.Joker {
     -- Scaling joker
     -- Gains xmult when king of diamonds played
 
-    -- Name/desc
+    -- Key
     key = 'malech',
-    loc_txt = {
-        name = 'Malech',
-        text = {
-        "This joker gains {X:mult,C:white}X#2# {} Mult when",
-        "each {C:diamonds}King of Diamonds{} is scored",
-        "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
-        }
-    },
 
     -- Vars
     config = { extra = { xmult = 1, xmult_gain = 0.1 } },
@@ -62,15 +54,8 @@ SMODS.Joker {
     -- https://github.com/Gainumki/GARBSHIT/blob/main/scripts/jokers.lua
     -- Gives 2X per Heart King
 
-    -- Name/desc
+    -- Key
     key = 'gabril',
-    loc_txt = {
-        name = 'Gabril',
-        text = {
-        "Each scored {C:hearts}King of Hearts{}",
-        "gives {X:mult,C:white} X#1# {} Mult",
-        }
-    },
 
     -- Vars
     config = { extra = { xmult = 2 } },
@@ -108,16 +93,8 @@ SMODS.Joker {
     -- Chance per card joker
     -- 1 in 2 chance for 3x mult with spade kings
 
-    -- Name/desc
+    -- Key
     key = 'ash',
-    loc_txt = {
-        name = 'Ash',
-        text = {
-        "{C:green}#1# in #2#{} chance for each",
-        "{C:spades}King of Spades{} scored",
-        "to give {X:mult,C:white} X#3# {C:inactive} Mult when scored",
-        }
-    },
 
     -- Vars
     config = { extra = { odds = 2, xmult = 3 } },
@@ -158,16 +135,8 @@ SMODS.Joker {
     -- Scaling joker
     -- Gains chips when club king played
 
-    -- Name/desc
+    -- Key
     key = 'estark',
-    loc_txt = {
-        name = 'Estark',
-        text = {
-        "This Joker gains {C:chips}+#2#{} Chips when",
-        "each {C:clubs}King of Clubs{} is scored",
-        "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
-        }
-    },
 
     -- Vars
     config = { extra = { chips = 0, chips_gain = 50 } },
@@ -216,15 +185,8 @@ SMODS.Joker {
     -- Retrigger joker
     -- Retriggers lucky cards
 
-    -- Name/desc
+    -- Key
     key = 'viva',
-    loc_txt = {
-        name = 'Viva Las Jimbo',
-        text = {
-        "Retrigger all scored",
-        "{C:attention}Lucky{} cards",
-        }
-    },
 
     -- Vars
     config = { extra = { retriggers = 1 }},
@@ -265,17 +227,8 @@ SMODS.Joker {
     -- Creation joker
     -- Creates a random legendary joker after a length of time
 
-    -- Name/desc
+    -- Key
     key = 'spirit',
-    loc_txt = {
-        name = 'Spirit',
-        text = {
-        "After {C:attention}#1# rounds,",
-        "sell this card to create a",
-        "random {E:1,C:legendary}Legendary{} Joker",
-        "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)"
-        }
-    },
 
     -- Vars
     config = { extra = { max_rounds = 10, rounds = 0 }},
@@ -343,16 +296,8 @@ SMODS.Joker {
     -- Gains xmult when a Queen or 2 is destroyed
     -- Based on character of same name from Invincible (iykyk)
 
-    -- Name/desc
+    -- Key
     key = 'powerplex',
-    loc_txt = {
-        name = 'Powerplex',
-        text = {
-        "This joker gains {X:mult,C:white}X#2# {} Mult for",
-        "every {C:attention}2{} or {C:attention}Queen{} that is destroyed",
-        "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
-        }
-    },
 
     -- Vars
     config = { extra = { xmult = 1, xmult_gain = 0.5 } },
@@ -378,8 +323,7 @@ SMODS.Joker {
 
         if context.joker_main then
             return {
-                xmult = card.ability.extra.xmult,
-                message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } }
+                xmult = card.ability.extra.xmult
             }
         end
 
