@@ -25,3 +25,4 @@ end
 -- assert(SMODS.load_file("scripts/tests.lua"))()
 assert(SMODS.load_file("scripts/jokers.lua"))()
 assert(SMODS.load_file("scripts/overrides.lua"))()
+-- assert(SMODS.load_file("scripts/utils.lua"))()

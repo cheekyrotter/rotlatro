@@ -64,6 +64,13 @@ return {
                     "ability this round",
                     "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
                 }
+            },
+            j_rotlatro_nancy = {
+                name = 'Negative Nancy',
+                text = {
+                    "Creates #1# {C:dark_edition}Negative{} Jokers",
+                    "when {C:attention}Boss Blind{} is defeated"
+                }
             }
         },
     },

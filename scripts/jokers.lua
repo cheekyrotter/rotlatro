@@ -19,7 +19,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 7,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -71,7 +71,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 7,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -110,7 +110,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 7,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -152,7 +152,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 7,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -202,7 +202,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 5,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -244,7 +244,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 10,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = false,
@@ -258,10 +258,7 @@ SMODS.Joker {
             and not context.blueprint
         then
             play_sound('timpani')
-            local card = create_card('Joker', G.jokers, true)
-            card:add_to_deck()
-            G.jokers:emplace(card)
-			card:start_materialize()
+            SMODS.add_card({set = 'Joker', legendary = true})
         end
 
         if 
@@ -313,7 +310,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 4,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -368,7 +365,7 @@ SMODS.Joker {
     -- Ingame config
     cost = 7,
     unlocked = true, 
-    discovered = false,
+    discovered = true,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
@@ -383,7 +380,6 @@ SMODS.Joker {
         end
 
         if context.probability_failed and not context.blueprint then
-            
             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
             return {
                 message = 'Upgraded!',
@@ -410,4 +406,62 @@ SMODS.Joker {
         end
     end
     
+}
+
+SMODS.Joker { 
+    -- Creation joker
+    -- Creates 2 negative jokers after a boss
+
+    -- Key
+    key = 'nancy',
+
+    -- Vars
+    config = { extra = { creates = 2 }},
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.creates } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 0, y = 0 },
+    
+    -- Ingame config
+    cost = 10,
+    unlocked = true, 
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 3,
+
+    calculate = function(self, card, context)
+
+        if 
+            context.end_of_round and
+            context.cardarea == G.jokers and
+            G.GAME.blind.boss == true
+        then
+            local jokers_to_create = card.ability.extra.creates
+            print(jokers_to_create)
+            G.GAME.joker_buffer = G.GAME.joker_buffer + jokers_to_create
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    for _ = 1, jokers_to_create do
+                        SMODS.add_card {
+                            set = 'Joker',
+                            edition = 'e_negative'
+                        }
+                        G.GAME.joker_buffer = 0
+                    end
+                    return true
+                end
+            }))
+            return {
+                message = '+2 Jokers',
+                colour = G.C.BLUE,
+            }
+        
+        end
+    end 
 }
