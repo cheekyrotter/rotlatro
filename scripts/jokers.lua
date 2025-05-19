@@ -465,3 +465,83 @@ SMODS.Joker {
         end
     end 
 }
+
+SMODS.Joker { 
+    -- Xmult joker
+    -- Gives x1.5, -$1
+
+    -- Key
+    key = 'trade',
+
+    -- Vars
+    config = { extra = { xmult = 1.5, dollars = 1 } },
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.xmult, card.ability.extra.dollars } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 3, y = 0 },
+    
+    -- Ingame config
+    cost = 7,
+    unlocked = true, 
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 3,
+
+    calculate = function(self, card, context)
+
+        if context.joker_main then
+            local triggers = 0
+            local money = to_big(G.GAME.dollars)
+            if money - 1 >= to_big(G.GAME.bankrupt_at) then
+                repeat
+                    if money - 1 >= to_big(G.GAME.bankrupt_at) then
+                        -- 
+                        triggers = triggers + 1
+                        money = money - 1
+                        
+                    else
+                        break
+                    end
+                until((hand_chips * mult * (card.ability.extra.xmult ^ triggers)) >= G.GAME.blind.chips)
+
+                local return_table = {
+                    xmult = card.ability.extra.xmult,
+                    dollars = -card.ability.extra.dollars,
+                    
+                }
+                
+                -- Thank you Aurelius7309, John S Mods himself
+                -- Explained this to me in detail, incredibly nice and helpful of him
+                -- Also thank you to nh6574 for giving the nested extra tables suggestion
+
+                local head = return_table
+                local copy = SMODS.shallow_copy(return_table)
+
+                for i = 1, triggers - 1 do
+                    return_table.extra = SMODS.shallow_copy(copy)
+                    return_table = return_table.extra
+                end
+
+                return_table.func = function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                G.GAME.dollar_buffer = 0
+                                return true
+                            end
+                    }))
+                end
+
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - (triggers * card.ability.extra.dollars)
+
+                return head
+            end
+        end
+    end
+    
+}

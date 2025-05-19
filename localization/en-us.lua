@@ -59,7 +59,7 @@ return {
             j_rotlatro_dangit = {
                 name = 'Awh Dang It',
                 text = {
-                    "This joker gains {X:mult,C:white}X#2# {} Mult for",
+                    "This joker gains {X:mult,C:white}X#2#{} Mult for",
                     "each {C:attention}unsuccessful{} {C:green}chance{}",
                     "ability this round",
                     "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
@@ -70,6 +70,15 @@ return {
                 text = {
                     "Creates #1# {C:dark_edition}Negative{} Jokers",
                     "when {C:attention}Boss Blind{} is defeated"
+                }
+            },
+            j_rotlatro_trade = {
+                name = 'Trade Deal',
+                text = {
+                    "Gives {X:mult,C:white}X#1#{} Mult repeatedly",
+                    "until required score reached,",
+                    "{C:money}-$#2#{} per trigger",
+                    "{C:inactive}(Must have required money){}"
                 }
             }
         },
