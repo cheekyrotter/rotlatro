@@ -77,7 +77,8 @@ return {
                 text = {
                     "Gives {X:mult,C:white}X#1#{} Mult repeatedly",
                     "until required score reached,",
-                    "{C:money}-$#2#{} per trigger",
+                    "{C:money}-$#2#{} per trigger,",
+                    "cost increases in {C:attention}#5#{} triggers",
                     "{C:inactive}(Must have required money){}"
                 }
             }

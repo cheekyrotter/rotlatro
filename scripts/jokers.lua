@@ -468,16 +468,18 @@ SMODS.Joker {
 
 SMODS.Joker { 
     -- Xmult joker
-    -- Gives x1.5, -$1
+    -- Gives x1.5, -$1, cost increases with more triggers
+
+    -- this genuinely might be the worst thing ive ever created
 
     -- Key
     key = 'trade',
 
     -- Vars
-    config = { extra = { xmult = 1.5, dollars = 1 } },
+    config = { extra = { xmult = 1.5, dollars = 1, triggers = 0, reset_triggers = 5} },
 
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.xmult, card.ability.extra.dollars } }
+        return { vars = { card.ability.extra.xmult, card.ability.extra.dollars, card.ability.extra.triggers, card.ability.extra.reset_triggers, card.ability.extra.reset_triggers - card.ability.extra.triggers } }
     end,
 
     -- Atlas
@@ -495,15 +497,24 @@ SMODS.Joker {
 
     calculate = function(self, card, context)
 
-        if context.joker_main then
+        if context.final_scoring_step then
             local triggers = 0
             local money = to_big(G.GAME.dollars)
-            if money - 1 >= to_big(G.GAME.bankrupt_at) then
+
+            local relative_triggers = card.ability.extra.triggers
+            local relative_cost = card.ability.extra.dollars
+
+            if money - relative_cost >= to_big(G.GAME.bankrupt_at) then
                 repeat
-                    if money - 1 >= to_big(G.GAME.bankrupt_at) then
+                    relative_triggers = relative_triggers + 1
+                    if relative_triggers == card.ability.extra.reset_triggers then
+                        relative_triggers = 0
+                        relative_cost = relative_cost + 1
+                    end
+                    if money - relative_cost >= to_big(G.GAME.bankrupt_at) then
                         -- 
                         triggers = triggers + 1
-                        money = money - 1
+                        money = money - relative_cost
                         
                     else
                         break
@@ -515,6 +526,13 @@ SMODS.Joker {
                     dollars = -card.ability.extra.dollars,
                     
                 }
+
+                local reset_table = {
+                    message = "Higher Prices!",
+                    func = function()
+                        card.ability.extra.dollars = card.ability.extra.dollars + 1
+                    end
+                }
                 
                 -- Thank you Aurelius7309, John S Mods himself
                 -- Explained this to me in detail, incredibly nice and helpful of him
@@ -522,8 +540,16 @@ SMODS.Joker {
 
                 local head = return_table
                 local copy = SMODS.shallow_copy(return_table)
+                
 
                 for i = 1, triggers - 1 do
+                    card.ability.extra.triggers = card.ability.extra.triggers + 1
+                    if card.ability.extra.triggers == card.ability.extra.reset_triggers then
+                        card.ability.extra.triggers = 0
+                        return_table.extra = SMODS.shallow_copy(reset_table)
+                        return_table = return_table.extra
+                        copy.dollars = copy.dollars - 1
+                    end
                     return_table.extra = SMODS.shallow_copy(copy)
                     return_table = return_table.extra
                 end
