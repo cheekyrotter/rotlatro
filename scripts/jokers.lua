@@ -294,7 +294,7 @@ SMODS.Joker {
     -- Based on character of same name from Invincible (iykyk)
 
     -- Key
-    key = 'powerplex',
+    key = 'plex',
 
     -- Vars
     config = { extra = { xmult = 1, xmult_gain = 0.5 } },
@@ -570,4 +570,43 @@ SMODS.Joker {
         end
     end
     
+}
+
+SMODS.Joker { 
+    -- Mult joker
+    -- Sets mult to 12
+
+    -- Key
+    key = 'safety',
+
+    -- Vars
+    config = { extra = { mult = 12 } },
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.mult } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 2, y = 0 },
+    
+    -- Ingame config
+    cost = 4,
+    unlocked = true, 
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 1,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local subtract = mult - card.ability.extra.mult
+            return {
+                mult_mod = -subtract,
+                message = "10!",
+                colour = G.C.MULT
+            }
+        end
+    end
 }

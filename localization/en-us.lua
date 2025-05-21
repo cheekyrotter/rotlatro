@@ -48,8 +48,8 @@ return {
                     "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)"
                 }
             },
-            j_rotlatro_powerplex = {
-                name = 'Powerplex',
+            j_rotlatro_plex = {
+                name = 'Jimboplex',
                 text = {
                     "This joker gains {X:mult,C:white}X#2# {} Mult for",
                     "every {C:attention}2{} or {C:attention}Queen{} that is destroyed",
@@ -80,6 +80,12 @@ return {
                     "{C:money}-$#2#{} per trigger,",
                     "cost increases in {C:attention}#5#{} triggers",
                     "{C:inactive}(Must have required money){}"
+                }
+            },
+            j_rotlatro_safety = {
+                name = 'Saftey Net',
+                text = {
+                    "Sets Mult to {C:mult}#1#{}"
                 }
             }
         },
