@@ -15,6 +15,8 @@ SMODS.current_mod.optional_features = function()
     }
 end
 
+to_big = to_big or function(x) return x end
+
 -- function Card:get_id()
 --     local ret = Getid_old(self)
 --     if ret == 12 and next(find_joker("j_rotlatro_equality")) then ret = 13 end

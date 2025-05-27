@@ -497,7 +497,7 @@ SMODS.Joker {
     pos = { x = 3, y = 0 },
     
     -- Ingame config
-    cost = 7,
+    cost = 6,
     unlocked = true, 
     discovered = true,
     blueprint_compat = true,
@@ -522,7 +522,6 @@ SMODS.Joker {
                     current_triggers = current_triggers + 1
 
                     if current_triggers == card.ability.extra.reset_triggers then
-                        print("reset")
                         current_triggers = 0
                         current_cost = current_cost + 1
                         SMODS.calculate_effect({message = "Price Increase!"}, card)
@@ -536,7 +535,7 @@ SMODS.Joker {
                 else
                     break
                 end
-            until((current_mult * mult) >= G.GAME.blind.chips)
+            until((current_mult * hand_chips) >= G.GAME.blind.chips)
             card.ability.extra.triggers = current_triggers
             card.ability.extra.cost = current_cost
 
@@ -649,9 +648,158 @@ SMODS.Joker {
             local subtract = mult - card.ability.extra.mult
             return {
                 mult_mod = -subtract,
-                message = "10!",
+                message = card.ability.extra.mult.."!",
                 colour = G.C.MULT
             }
+        end
+    end
+}
+
+SMODS.Joker { 
+    -- Chance joker
+    -- Halves all chances
+
+    -- Key
+    key = 'nosixes',
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 2, y = 0 },
+    
+    -- Ingame config
+    cost = 4,
+    unlocked = true, 
+    discovered = true,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 2,
+
+    add_to_deck = function(self, card, from_debuff)
+        for k, v in pairs(G.GAME.probabilities) do 
+            G.GAME.probabilities[k] = v/2
+        end
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        for k, v in pairs(G.GAME.probabilities) do
+            G.GAME.probabilities[k] = v*2
+        end
+    end,
+}
+
+SMODS.Joker { 
+    -- Copying joker
+    -- Copies joker to left for fixed uses/rounds
+    -- Thanks Vanilla Remade people
+    -- https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua
+
+    -- Key
+    key = 'rice',
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 2, y = 0 },
+    
+    -- Ingame config
+    cost = 8,
+    unlocked = true, 
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 2,
+
+    -- Vars
+    config = { extra = { uses = 12 } },
+
+    loc_vars = function(self, info_queue, card)
+        local main_end = nil
+        if G.jokers and G.jokers.cards then
+            local other_joker
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then other_joker = G.jokers.cards[i - 1] end
+            end
+            local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
+            main_end = (card.area and card.area == G.jokers) and {
+                {
+                    n = G.UIT.C,
+                    config = { align = "bm", minh = 0.4 },
+                    nodes = {
+                        {
+                            n = G.UIT.C,
+                            config = { ref_table = card, align = "m", colour = compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+                            nodes = {
+                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+                            }
+                        }
+                    }
+                }
+            } or nil
+        end
+        return { main_end = main_end, vars = {card.ability.extra.uses} }
+    end,
+
+    calculate = function(self, card, context)
+
+        local other_joker = nil
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then other_joker = G.jokers.cards[i - 1] end
+        end
+        local blueprint = SMODS.blueprint_effect(card, other_joker, context)
+        if blueprint then
+            card.ability.extra.uses = card.ability.extra.uses - 1
+            
+            blueprint.extra = {
+                func = function ()
+                    SMODS.calculate_effect({
+                        message = "Chomp!"},
+                        card
+                )
+            end
+                -- message = "Chomp!",
+                -- card = blueprint.copier
+            }
+        end
+        return(blueprint)
+    end
+}
+
+SMODS.Joker { 
+    -- Creation joker
+    -- Makes wild copy of last card in flush
+
+    -- Key
+    key = 'dynamo',
+
+    -- Vars
+    config = { extra = { } },
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { } }
+    end,
+
+    -- Atlas
+    atlas = 'rotlatro',
+    pos = { x = 1, y = 0 },
+    
+    -- Ingame config
+    cost = 5,
+    unlocked = true, 
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    rarity = 2,
+
+    calculate = function(self, card, context)
+
+        if context.after and context.poker_hands['Flush'] then
+            local hand_size = #context.scoring_hand
+            local original = context.scoring_hand[hand_size]
+            local copy_rank = original:get_id()
+            local copy_suit = original.config.card.suit
+            local copy = SMODS.create_card()
         end
     end
 }

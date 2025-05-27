@@ -87,6 +87,31 @@ return {
                 text = {
                     "Sets Mult to {C:mult}#1#{}"
                 }
+            },
+            j_rotlatro_nosixes = {
+                name = 'Oops! No 6s',
+                text = {
+                    "Halves all {C:attention}listed",
+                    "{C:green,E:1,S:1.1}probabilities",
+                    "{C:inactive}(ex: {C:green}2 in 3{C:inactive} -> {C:green}1 in 3{C:inactive})",
+                }
+            },
+            j_rotlatro_rice = {
+                name = 'Delicious Rice',
+                text = {
+                    "Copies ability of",
+                    "{C:attention}Joker{} to the left,",
+                    "expires after {C:attention}#1#{} uses"
+                }
+            },
+            j_rotlatro_dynamo ={
+                name = 'Dynajimbo',
+                text = {
+                    "If played hand contains a {C:attention}Flush{},",
+                    "add a {C:attention}Wild{} card with the",
+                    "the same rank and suit as the last card",
+                    "in played hand"
+                }
             }
         },
     },
