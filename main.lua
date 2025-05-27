@@ -23,8 +23,23 @@ to_big = to_big or function(x) return x end
 --     return ret
 --   end
 
+local mod = SMODS.current_mod
 
--- assert(SMODS.load_file("scripts/tests.lua"))()
-assert(SMODS.load_file("scripts/jokers.lua"))()
-assert(SMODS.load_file("scripts/overrides.lua"))()
--- assert(SMODS.load_file("scripts/utils.lua"))()
+local function batch_load(txt)
+	-- Credit to GARBSHIT for this function, very helpful 
+    local joker_files = NFS.getDirectoryItems(mod.path.."data/"..txt)
+    sendInfoMessage(mod.path.."data/"..txt)
+    local txt = txt..'/'
+    for _, file in pairs(joker_files) do
+        sendInfoMessage(file)
+        if string.find(file, ".lua") then
+          assert(SMODS.load_file("data/"..txt..file))()
+        end
+    end
+    sendInfoMessage("FINISHED BATCH LOAD FOR "..txt)
+    return true
+end
+
+
+batch_load("jokers")
+batch_load("misc")
