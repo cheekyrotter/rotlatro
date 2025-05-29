@@ -7,8 +7,8 @@ The mod is VERY unfinished currently, I would not recommend downloading it in it
 
 ## Content (Planned)
 
-20+ Jokers
-1 Edition
-1 Enhancement
-2 Seals
-4 Spectrals
+- 20+ Jokers
+- 1 Edition
+- 1 Enhancement
+- 2 Seals
+- 4 Spectrals
