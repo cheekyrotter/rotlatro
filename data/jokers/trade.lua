@@ -69,8 +69,6 @@ SMODS.Joker {
             until((current_mult * hand_chips) >= G.GAME.blind.chips)
             card.ability.extra.triggers = current_triggers
             card.ability.extra.cost = current_cost
-
-
         end
     end
     

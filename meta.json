@@ -11,6 +11,7 @@
 	"badge_text_colour": "FFFFFF",
 	"dependencies": [
         "Steamodded (>=1.*)",
-		"Lovely (>=0.6)"
+		"Lovely (>=0.6)",
+		"arceus (>=0.1)"
     ]
 }
