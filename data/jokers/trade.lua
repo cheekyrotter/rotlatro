@@ -9,7 +9,7 @@ SMODS.Joker {
     -- not even my ex girlfriend could give me this much trauma
 
     -- Thank you Aurelius7309, John S Mods himself
-    -- Explained this to me in detail, incredibly nice and helpful of him
+    -- Explained tables to me in detail, incredibly nice and helpful of him
     -- Also thank you to nh6574 for giving the nested extra tables suggestion
     -- While I did not use this solution ultimately, they were very helpful regardless
 

@@ -12,11 +12,10 @@ SMODS.Atlas {
 
 mod = SMODS.current_mod
 
-mod.optional_features = function()
-    return {
-        retrigger_joker = true,
-    }
-end
+mod.optional_features =  {
+    retrigger_joker = true,
+}
+
 
 mod.arceus_config = {
 	data_folder = "data/"
